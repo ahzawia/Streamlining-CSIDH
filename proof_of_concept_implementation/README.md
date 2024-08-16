@@ -2,8 +2,7 @@
 
 
 ## Description
-This implementation is to showcase the results
-of our work. As a result, this is  a proof-of-concept for demonstration purposes only. A more concrete implementation is expected in future work.
+This implementation is intended to showcase the results of our work (to be released soon). It serves as a proof-of-concept for demonstration purposes only, with a more robust implementation anticipated in future projects.
 
 
 
@@ -16,13 +15,15 @@ You can install the required packages using:
  pip3 install -r requirements.txt 
 ```
 
+Also, please review the Prerequisites section for our C code, which can be found in the `str-line-c-src/README.md` file.
+
 ## Code Review
 - Open the project in your preferred code editor (or terminal).
-- Review the main files and scripts located in the `str_line_csidh_src/`, `str_line_csidh_src/str-line-c-src`, `str_line_csidh_src/str-line-c-src/csi-fish`, and `str_line_csidh_src/high-ctidh/` directories.
+- Review the main files and scripts located in the `proof_of_concept_implementation/`, `proof_of_concept_implementation/str-line-c-src`, `proof_of_concept_implementation/str-line-c-src/csi-fish`, and `proof_of_concept_implementation/high-ctidh/` directories.
  
 
 ## Setup
-First we need to compile our c-lib. Use the following bash script:
+First, we need to compile our C library. To do this, use the following bash script:
 ```bash
 ./build_full.sh
 ```
@@ -30,7 +31,7 @@ This should generate `libhighctidh_512.so` and `libstreamlining.so` in `str_line
 
 ## Experiments
 
-#### Running Experiment for public evaluation
+#### Running an experiment for public set evaluation
 To run the first experiment, use the following command:
 ```bash
 python3 Public_action_set_evaluation.py
@@ -51,7 +52,7 @@ D =  {
 where 2 is the execution set size, 'individual_computation' and 'strategic_computation' are the execution types. The results in the list are formatted as [M, S, a, Metric 1, Metric 2].
 
 
-#### Running Experiment for private evaluation
+#### Running an experiment for private set evaluation
 To run the second experiment, use the following command:
 ```bash
 python3 Private_action_set_evaluation.py 
