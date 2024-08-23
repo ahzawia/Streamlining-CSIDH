@@ -1,8 +1,8 @@
 import copy
-from c_interface import C_INTERFACE
-from action_system import pinpoint_action_systems, sum_pair_wise_vectors_of_vector
-from action_system import percentage_fun
-from helper import save_dict_to_file 
+
+from streamlining_src.action_system import pinpoint_action_systems
+from streamlining_src.c_interface import C_INTERFACE 
+from streamlining_src.helper import load_config, percentage_fun, sum_pair_wise_vectors_of_vector, save_dict_to_file 
 
 def experimenting_Public_action_set_evaluation(exe_set_size, sim_iteration):
     fname = 'libstreamlining.so'
@@ -46,22 +46,26 @@ def experimenting_Public_action_set_evaluation(exe_set_size, sim_iteration):
     return r_individual_list_total, strategic_q_r1r2_list_total, percentage
 
 def experimenting_first_strategic_computation():
-    out_file_name = "outputs/figure1_first_strategic_computation.txt"
-    execution_set_size_max = 60
-    sim_iteration = 5000
-    
-    # step = 8
-    step = 4
+    print("[+] experimenting_Public_action_set_evaluation: ")
+    config_path = 'configs/config_public_action_set_evaluation.json'
+    config_file = load_config(config_path)
+
+    out_file_name = config_file["out_file_name"]
+
+    sim_iteration = config_file["sim_iteration"]
+    execution_set_size_max = config_file["execution_set_size"]
+    step = config_file["step"] # step = 4 # 8
 
     D = {}
     keys = ["individual_computation", "strategic_computation", "percentage"]
     for exe_set_size in range(2, execution_set_size_max, step):
-        print("[+] Start for execution set size : ", exe_set_size, " of ", execution_set_size_max)
+        print("[>] Start experimenting for execution set size: ", exe_set_size, " out of ", execution_set_size_max)
         D[exe_set_size] = dict(zip(keys, list(experimenting_Public_action_set_evaluation(exe_set_size, sim_iteration))))
-    print("D = ", D)
+    print("[>]  D = ", D)
     save_dict_to_file(D, out_file_name)
 
-    print(f"[-] The results is saved to: {out_file_name}")
+    print(f"[>] The results is saved to: {out_file_name}")
+    print("[-] experimenting_Public_action_set_evaluation: ")
 
 
 if __name__ == '__main__':

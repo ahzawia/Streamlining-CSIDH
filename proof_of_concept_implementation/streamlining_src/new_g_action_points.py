@@ -1,8 +1,8 @@
 import copy
 import random  
-from c_interface import C_INTERFACE
-from new_g_action_aux import EpsFdistJs
-from new_g_action_helper import int_cswap, get_pos_li, cprint
+from streamlining_src.c_interface import C_INTERFACE
+from streamlining_src.new_g_action_aux import EpsFdistJs
+from streamlining_src.new_g_action_helper import int_cswap, get_pos_li, cprint
 from config import batch_length, batchsize, batchstart
 
 def clear_public_primes(clibx : C_INTERFACE, Tx, A24, I):

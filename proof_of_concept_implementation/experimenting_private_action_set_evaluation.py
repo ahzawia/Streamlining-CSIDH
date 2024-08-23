@@ -1,12 +1,11 @@
 import copy
 import math
-from action_system import find_pairs_strategic_two
-from c_interface import C_INTERFACE
-from helper import save_dict_to_file
-from new_g_action import system_action
-from new_g_action_aux import NumberExecutionRounds 
-
-from models import private_key
+from streamlining_src.action_system import identify_action_systems_for_private_strategy
+from streamlining_src.c_interface import C_INTERFACE
+from streamlining_src.helper import load_config, save_dict_to_file
+from streamlining_src.new_g_action import system_action
+from streamlining_src.new_g_action_aux import NumberExecutionRounds 
+from streamlining_src.models import private_key
 
 
 def get_stat(data):
@@ -32,19 +31,26 @@ def get_stat(data):
     return mean.tolist(), std_dev.tolist(), min_val.tolist(), max_val.tolist()
     # return statistics
  
-def experimenting_private_action_set_evaluation(clibx : C_INTERFACE,):
-    sim_iteration = 500
-    tries_for_each_sim_iteration = 500
+def experimenting_private_action_set_evaluation(clibx : C_INTERFACE):
+    print("[+] experimenting_private_action_set_evaluation: ")
 
+    config_path = 'configs/config_private_action_set_evaluation.json'
+    config_file = load_config(config_path)
+
+    out_file_name = config_file["out_file_name"]
+
+    sim_iteration = config_file["sim_iteration"]
+    replication = config_file["replication"] # repeating trials
+    sim_iteration = config_file["sim_iteration"]
+    execution_set_factors = config_file["execution_set_factors"]
+    execution_set_size = config_file["execution_set_size"] * execution_set_factors
+    
     clibx.reset_counters() 
     num_it_total = NumberExecutionRounds()
     measure_of2 = []
     measure_of3 = []
- 
-    execution_set_factors = 1
     for itr_num in range(sim_iteration):
-        execution_set_size = 4 * execution_set_factors
-        print(f"[+] Running an experiment #{itr_num}, for execution set of size {execution_set_size}")
+        print(f"[>] Running an experiment #{itr_num}, for execution set of size {execution_set_size}")
 
         A = clibx.get_A0()
         secret_set_size = execution_set_size + math.floor(execution_set_size * 0.0)  #use even numbers 
@@ -57,7 +63,7 @@ def experimenting_private_action_set_evaluation(clibx : C_INTERFACE,):
         while search_flag:
             action_list = clibx.generate_c_sk_v2(secret_set_size)
             action_list_int = [copy.deepcopy(ei.to_list()) for ei in action_list]
-            matching_pairs = find_pairs_strategic_two(action_list_int, start, end, min_bound)
+            matching_pairs = identify_action_systems_for_private_strategy(action_list_int, start, end, min_bound)
             e_list_l_new = []
             for pair, indices in matching_pairs.items():
                 i = pair[0]
@@ -79,7 +85,7 @@ def experimenting_private_action_set_evaluation(clibx : C_INTERFACE,):
         clibx.reset_counters()
         measure_of_temp_before = clibx.get_counters()
         try:
-            for _ in range(tries_for_each_sim_iteration):
+            for _ in range(replication):
                 _, num_itm = system_action(clibx, Asys, action_list_to_sys, start, end, min_bound)
                 num_it_total = num_it_total + num_itm
         except Exception as e:
@@ -91,11 +97,11 @@ def experimenting_private_action_set_evaluation(clibx : C_INTERFACE,):
         measure_of_temp_after = clibx.get_counters()
 
         measure_of_delta = [a - b for a, b in zip(measure_of_temp_after, measure_of_temp_before)] 
-        measure_of2.append([x / (execution_set_factors*tries_for_each_sim_iteration) for x in measure_of_delta])
+        measure_of2.append([x / (execution_set_factors*replication) for x in measure_of_delta])
 
         clibx.reset_counters()
         measure_of_temp_before = clibx.get_counters()
-        for _ in range(tries_for_each_sim_iteration):
+        for _ in range(replication):
             for e_i in action_list_int:
                 Ai = copy.deepcopy(A)
                 e1 = private_key.from_int_list(e_i)
@@ -103,41 +109,41 @@ def experimenting_private_action_set_evaluation(clibx : C_INTERFACE,):
         measure_of_temp_after = clibx.get_counters()
 
         measure_of_delta = [a - b for a, b in zip(measure_of_temp_after, measure_of_temp_before)]
-        measure_of3.append([x / (execution_set_factors*tries_for_each_sim_iteration) for x in measure_of_delta])
+        measure_of3.append([x / (execution_set_factors*replication) for x in measure_of_delta])
 
-    num_it_total.normalize(sim_iteration*tries_for_each_sim_iteration)
+    num_it_total.normalize(sim_iteration*replication)
     print(num_it_total)
 
     mean_sys, std_dev_sys, min_val_sys, max_val_sys = get_stat(measure_of2)
     mean_ind, std_dev_ind, min_val_ind, max_val_ind = get_stat(measure_of3)
 
-    print("####################################")
-    print("measure_of result_indiv = ", mean_ind)
-    print("measure_of std_dev_ind = ", std_dev_ind)
-    print("measure_of min_val_ind = ", min_val_ind)
-    print("measure_of max_val_ind = ", max_val_ind)
+    print("[>] ####################################")
+    print("[>] measure_of result_indiv = ", mean_ind)
+    print("[>] measure_of std_dev_ind = ", std_dev_ind)
+    print("[>] measure_of min_val_ind = ", min_val_ind)
+    print("[>] measure_of max_val_ind = ", max_val_ind)
 
-    print("####################################")
-    print("measure_of system_action = ", mean_sys)
-    print("measure_of std_dev_sys = ", std_dev_sys)
-    print("measure_of min_val_sys = ", min_val_sys)
-    print("measure_of max_val_sys = ", max_val_sys)
+    print("[>] ####################################")
+    print("[>] measure_of system_action = ", mean_sys)
+    print("[>] measure_of std_dev_sys = ", std_dev_sys)
+    print("[>] measure_of min_val_sys = ", min_val_sys)
+    print("[>] measure_of max_val_sys = ", max_val_sys)
 
     per = [100*(mean_ind[i]-mean_sys[i])/mean_ind[i] for i in range(len(mean_sys))]
-    print("Percentage = ", per)
+    print("[>] Percentage = ", per)
 
     # #######################
     # Saving our results
-    out_file_name = "outputs/Table2_second_strategic_computation.txt"
     D = {}
     keys = ["individual_computation", "strategic_computation", "percentage"]
     D[keys[0]] = mean_ind
     D[keys[1]] = mean_sys
     D[keys[2]] = per
 
-    print(D)
+    print(f"[>] D = {D}")
     save_dict_to_file(D, out_file_name)
-    print(f"[-] The results is saved to: {out_file_name}")
+    print(f"[>] The results is saved to: {out_file_name}")
+    print("[-] experimenting_private_action_set_evaluation: ")
 
 def experimenting_second_strategic_computation():
     fname = 'libstreamlining.so'

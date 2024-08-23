@@ -7,7 +7,7 @@ current_date=$(date +%Y%m%d)
 mv libstreamlining.so ./libbackup/"libstreamlining.so_${current_date}.so"
 
 # Navigate into the high-ctidh directory
-cd str-line-c-src || exit
+cd streamlining_c_src || exit
 
 make 
 

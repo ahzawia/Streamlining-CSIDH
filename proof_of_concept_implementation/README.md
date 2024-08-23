@@ -2,8 +2,11 @@
 
 
 ## Description
-This implementation is intended to showcase the results of our work (to be released soon). It serves as a proof-of-concept for demonstration purposes only, with a more robust implementation anticipated in future projects.
+This implementation is intended to showcase the results of our work (to be released soon). It serves as a proof-of-concept for demonstration purposes only, with a more robust implementation anticipated in future projects. At present, our code benchmark focuses on CSIDH-512.
 
+This project makes use of the following external library:
+- **high-ctidh** - [high-ctidh](https://ctidh.isogeny.org/index.html) is a library that implements the CTIDH algorithm, designed for constant-time evaluation of the [CSIDH](https://eprint.iacr.org/2018/383.pdf) group action. We use this library as a benchmark to compare our computational improvements with the original CTIDH work. However, we currently built the high-CTIDH library using its fork, [
+high-ctidh](https://git.xx.network/elixxir/high-ctidh), located at `proof_of_concept_implementation/high-ctidh/`. 
 
 
 ## Dependencies
@@ -15,11 +18,11 @@ You can install the required packages using:
  pip3 install -r requirements.txt 
 ```
 
-Also, please review the Prerequisites section for our C code, which can be found in the `str-line-c-src/README.md` file.
+Also, please review the Prerequisites section for our C code, which can be found in the `streamlining_c_src/README.md` file.
 
 ## Code Review
 - Open the project in your preferred code editor (or terminal).
-- Review the main files and scripts located in the `proof_of_concept_implementation/`, `proof_of_concept_implementation/str-line-c-src`, `proof_of_concept_implementation/str-line-c-src/csi-fish`, and `proof_of_concept_implementation/high-ctidh/` directories.
+- Review the main files and scripts located in the `proof_of_concept_implementation/`, `proof_of_concept_implementation/streamlining_src/` , `proof_of_concept_implementation/streamlining_c_src`, `proof_of_concept_implementation/streamlining_c_src/csi-fish`, and `proof_of_concept_implementation/high-ctidh/` directories.
  
 
 ## Setup

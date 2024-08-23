@@ -1,5 +1,5 @@
 ./build_csidh.sh
 
-cp libhighctidh_512.so ./str-line-c-src
+cp libhighctidh_512.so ./streamlining_c_src
 
 ./build_streamlining.sh

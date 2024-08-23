@@ -1,8 +1,8 @@
 import copy
 from ctypes import *
-from models import private_key, proj, public_key
-from config import primes_num, p_list, batchstart, batchstop
-from new_g_action_helper import get_pos_li
+from streamlining_src.models import private_key, proj, public_key
+from config import n_primes, p_list, batchstart, batchstop
+from streamlining_src.new_g_action_helper import get_pos_li
 
 class C_INTERFACE(object):
 
@@ -148,7 +148,7 @@ class C_INTERFACE(object):
         count = num_keys * 1000
         self.lib.init_classgroup()
         for i in range(num_keys):
-            vec_array = (c_int8 * primes_num)()
+            vec_array = (c_int8 * n_primes)()
             self.lib.sample_from_classgroup(vec_array)
 
             priv = private_key()

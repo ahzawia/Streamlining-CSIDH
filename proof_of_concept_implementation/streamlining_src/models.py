@@ -1,6 +1,6 @@
 from ctypes import Structure, c_int8, c_uint64
-from config import BITS, UINTBIG_LIMBS, prime_p, primes_num
-from helper import out_of_montgomery_num, to_of_montgomery_num 
+from config import BITS, UINTBIG_LIMBS, prime_p, n_primes
+from streamlining_src.helper import out_of_montgomery_num, to_of_montgomery_num 
 
 class uintbig(Structure):
     _fields_ = [("c", c_uint64 * UINTBIG_LIMBS)]
@@ -83,7 +83,7 @@ class proj(Structure):
         print("}")
 
 class private_key(Structure):  
-    _fields_ = [("e", c_int8 * primes_num)]
+    _fields_ = [("e", c_int8 * n_primes)]
 
     def __setitem__(self, index, value):
         if isinstance(index, slice):
@@ -126,12 +126,12 @@ class private_key(Structure):
 
     @classmethod
     def from_int_list(cls, int_list):
-        if len(int_list) != primes_num:
-            raise ValueError(f"List must contain exactly {primes_num} integers.")
+        if len(int_list) != n_primes:
+            raise ValueError(f"List must contain exactly {n_primes} integers.")
         # Create an instance of ptest
         instance = cls()
         # Copy elements from the list to the ctypes array
-        for i in range(primes_num):
+        for i in range(n_primes):
             instance.e[i] = int_list[i]
         return instance
     

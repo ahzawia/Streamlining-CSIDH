@@ -1,6 +1,6 @@
-from c_interface import C_INTERFACE
+from streamlining_src.c_interface import C_INTERFACE
 from config import batch_length, batchstart
-from new_g_action_helper import int_cswap, find_first_nonzero_j, cprint
+from streamlining_src.new_g_action_helper import int_cswap, find_first_nonzero_j, cprint
 
 # A class that counts the number of execution rounds evaluating a group of action(s).
 class NumberExecutionRounds():
@@ -40,7 +40,7 @@ class NumberExecutionRounds():
     def __repr__(self):
         """Returns a string representation of the object."""
         total_rounds = sum(self.num_it_list)
-        return f"NumberExecutionRounds(Total rounds of execution: {total_rounds}; separate actions rounds: {self.num_it_list})"
+        return f"[>] NumberExecutionRounds(Total rounds of execution: {total_rounds}; separate actions rounds: {self.num_it_list})"
     
     def __str__(self):
         """Returns a user-friendly string representation of the object."""

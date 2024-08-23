@@ -1,0 +1,10 @@
+{
+    "experiment_name": "private_action_set_evaluation",
+    "sim_iteration": 500,
+    "replication": 500,
+    "execution_set_factors": 1,
+    "step": "",
+    "execution_set_size": 4,
+    "out_file_name": "outputs/Table2_second_strategic_computation.txt"
+  }
+  

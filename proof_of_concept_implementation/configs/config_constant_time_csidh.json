@@ -1,0 +1,9 @@
+{
+    "experiment_name": "constant_time_csidh_Algorithm3",
+    "sim_iteration": 500,
+    "replication": 500,
+    "execution_set_factors": "",
+    "step": "",
+    "execution_set_size": "",
+    "out_file_name": "outputs/Algorithm_3_computational_cost.txt"
+  }

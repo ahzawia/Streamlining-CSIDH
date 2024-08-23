@@ -1,0 +1,9 @@
+{
+    "experiment_name": "public_action_set_evaluation",
+    "sim_iteration": 5000,
+    "replication": "",
+    "execution_set_factors": "",
+    "step": 4,
+    "execution_set_size": 60,
+    "out_file_name": "outputs/figure1_first_strategic_computation.txt"
+  }

@@ -1,13 +1,13 @@
 import copy
-from action_system import find_pairs_strategic_two
+from streamlining_src.action_system import identify_action_systems_for_private_strategy
 from config import batch_length, batchbound
-from models import proj
-from c_interface import C_INTERFACE
-from new_g_action_aux import NumberExecutionRounds, EpsFdistJs
-from new_g_action_helper import OperationMode, OperationState, cmov, cswap
-from new_g_action_helper import compute_ri_rj_qij, get_pos_li, select_torsion_point_index_Ts 
-from new_g_action_points import Algorithm_5, Algorithm_5_with_pre_sampled_torsion_points, Algorithm_4
-from new_g_action_helper import cprint
+from streamlining_src.models import proj
+from streamlining_src.c_interface import C_INTERFACE
+from streamlining_src.new_g_action_aux import NumberExecutionRounds, EpsFdistJs
+from streamlining_src.new_g_action_helper import OperationMode, OperationState, cmov, cswap
+from streamlining_src.new_g_action_helper import compute_ri_rj_qij, get_pos_li, select_torsion_point_index_Ts 
+from streamlining_src.new_g_action_points import Algorithm_5, Algorithm_5_with_pre_sampled_torsion_points, Algorithm_4
+from streamlining_src.new_g_action_helper import cprint
 
 
 # Global variables for debugging, TODO remove
@@ -33,7 +33,7 @@ def system_action(clibx : C_INTERFACE, A, in_e_list, start, end, min_bound):
     e_size = len(in_e_list)
     e_list = copy.deepcopy(in_e_list)
     e_list_l = copy.deepcopy(e_list)
-    matching_pairs = find_pairs_strategic_two(e_list_l, start, end, min_bound)
+    matching_pairs = identify_action_systems_for_private_strategy(e_list_l, start, end, min_bound)
    
     A24 = clibx.xA24(A)
     As = [A, A24]
