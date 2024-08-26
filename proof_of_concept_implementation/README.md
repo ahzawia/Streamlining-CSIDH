@@ -37,7 +37,7 @@ This should generate `libhighctidh_512.so` and `libstreamlining.so` in `str_line
 #### Running an experiment for public set evaluation
 To run the first experiment, use the following command:
 ```bash
-python3 Public_action_set_evaluation.py
+python3 experimenting_public_action_set_evaluation.py
 ```
 
 The script generates and saves the data for Figure 1 into a file name: `outputs/figure1_first_strategic_computation.txt`. An example of an output:
@@ -58,7 +58,7 @@ where 2 is the execution set size, 'individual_computation' and 'strategic_compu
 #### Running an experiment for private set evaluation
 To run the second experiment, use the following command:
 ```bash
-python3 Private_action_set_evaluation.py 
+python3 experimenting_private_action_set_evaluation.py 
 ```
 The script generates and saves the data for Figure 1 into a file name: `outputs/Table2_second_strategic_computation.txt`. An example of an output:
 
@@ -75,7 +75,7 @@ Similar to the previous execution, the output is for the execution types 'indivi
 #### Running an experiment for our CSIDH constant-time implementation
 To run the second experiment, use the following command:
 ```bash
-python3 constant_time_csidh.py
+python3 experimenting_constant_time_csidh.py
 ```
 The script generates and saves the data for Figure 1 into a file name: `outputs/Algorithm_3_computational_cost.txt`. An example of an output:
 
